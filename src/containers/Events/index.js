@@ -16,15 +16,14 @@ const EventList = () => {
   const filteredEvents = (
     (!type
       ? data?.events
-      : data?.events) || []
+      : data?.events.filter((event) => event.type === type)) || []
   ).filter((event, index) => {
-    if (
-      (currentPage - 1) * PER_PAGE <= index &&
-      PER_PAGE * currentPage > index
-    ) {
-      return true;
-    }
-    return false;
+    const startIndex = (currentPage - 1) * PER_PAGE;
+    const endIndex = PER_PAGE * currentPage;
+  
+    const isWithinPageRange = startIndex <= index && index < endIndex;
+  
+    return isWithinPageRange;
   });
   const changeType = (evtType) => {
     setCurrentPage(1);
@@ -42,7 +41,7 @@ const EventList = () => {
           <h3 className="SelectTitle">Catégories</h3>
           <Select
             selection={Array.from(typeList)}
-            onChange={(value) => (value ? changeType(value) : changeType(null))}
+            onChange={(value) => (value!==null? changeType(value) : changeType(null))}
           />
           <div id="events" className="ListContainer">
             {filteredEvents.map((event) => (
@@ -59,7 +58,7 @@ const EventList = () => {
               </Modal>
             ))}
           </div>
-          <div className="Pagination">
+          <div className="Pagination" >
             {[...Array(pageNumber || 0)].map((_, n) => (
               // eslint-disable-next-line react/no-array-index-key
               <a key={n} href="#events" onClick={() => setCurrentPage(n + 1)}>

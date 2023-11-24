@@ -27,9 +27,11 @@ export const DataProvider = ({ children }) => {
     }
   }, []);
   useEffect(() => {
-    if (data) return;
+    if (!data) {
     getData();
-  });
+  }
+}, [data, getData]);
+
   
   return (
     <DataContext.Provider
@@ -49,5 +51,6 @@ DataProvider.propTypes = {
 }
 
 export const useData = () => useContext(DataContext);
+
 
 export default DataContext;

@@ -15,6 +15,7 @@
       opacity: 0;
     }
     &--display {
+      transition: opacity 0.5s ease-in-out;
       animation: slide 1s forwards;
     }
     &__descriptionContainer {
